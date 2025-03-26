@@ -45,13 +45,23 @@ document.addEventListener('DOMContentLoaded', function() {
         galleryItem.className = 'gallery-item';
 
         const img = document.createElement('img');
-        img.src = imagePath;
-        img.alt = imagePath.split('/').pop().split('.')[0];
-        
-        // Add error handling for images
+        let retryCount = 0;
+        const maxRetries = 3;
+
+        const loadImage = () => {
+            img.src = imagePath;
+            img.alt = imagePath.split('/').pop().split('.')[0];
+        };
+
         img.onerror = () => {
-            console.error('Failed to load image:', imagePath);
-            img.src = 'placeholder.jpg'; // Optional: provide a placeholder image
+            if (retryCount < maxRetries) {
+                console.warn(`Retrying image load (${retryCount + 1}/${maxRetries}):`, imagePath);
+                retryCount++;
+                setTimeout(loadImage, 1000 * retryCount); // Exponential backoff
+            } else {
+                console.error('Failed to load image after retries:', imagePath);
+                img.src = 'placeholder.jpg';
+            }
         };
 
         const caption = document.createElement('p');
@@ -60,6 +70,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         galleryItem.appendChild(img);
         galleryItem.appendChild(caption);
+        
+        // Start loading
+        loadImage();
 
         galleryItem.addEventListener('click', () => {
             const fullImg = document.createElement('img');
@@ -110,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function loadImages() {
         try {
-            const response = await fetch('http://localhost:3000/api/images');
+            const response = await fetch('/api/images');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -124,19 +137,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // Only show first 5 images on home page
             const featuredImages = images.slice(0, 5);
             featuredImages.forEach(image => {
-                const imageElement = createImageElement(`/assets/photos/${image}`);
+                const imageElement = createImageElement(image.url);
                 galleryContainer.appendChild(imageElement);
             });
         } catch (error) {
             console.error('Error loading images:', error);
-            galleryContainer.innerHTML = '<p>Error loading images. Please check the console.</p>';
+            galleryContainer.innerHTML = `<p>Error loading images: ${error.message}</p>`;
         }
     }
 
     async function loadVideos() {
         try {
             const videoContainer = document.getElementById('video-container');
-            const response = await fetch('http://localhost:3000/api/videos');
+            const response = await fetch('/api/videos');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -149,11 +162,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const featuredVideos = videos.slice(0, 5);
             featuredVideos.forEach(video => {
-                const videoElement = createVideoElement(`/assets/videos/${video}`);
+                const videoElement = createVideoElement(video.url);
                 videoContainer.appendChild(videoElement);
             });
         } catch (error) {
             console.error('Error loading videos:', error);
+            videoContainer.innerHTML = `<p>Error loading videos: ${error.message}</p>`;
         }
     }
 

@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const profileSection = document.getElementById('profile-section');
     const galleryContainer = document.getElementById('gallery-container');
 
+    // Add this at the top of the file
+    const SERVER_URL = window.location.hostname === 'localhost' 
+        ? 'http://localhost:3000' 
+        : `http://${window.location.hostname}:3000`;
+
     // Add modal HTML (same as in app.js)
     document.body.insertAdjacentHTML('beforeend', `
         <div class="modal" id="contentModal">
@@ -55,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function loadAllImages() {
         try {
             galleryContainer.innerHTML = ''; // Clear existing images
-            const response = await fetch('http://localhost:3000/api/images');
+            const response = await fetch(`${SERVER_URL}/api/images`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -67,12 +72,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             images.forEach(image => {
-                const imageElement = createImageElement(`/assets/photos/${image}`);
+                const imageElement = createImageElement(image.url);
                 galleryContainer.appendChild(imageElement);
             });
         } catch (error) {
             console.error('Error loading images:', error);
-            galleryContainer.innerHTML = '<p>Error loading images. Please check the console.</p>';
+            galleryContainer.innerHTML = `<p>Error loading images: ${error.message}</p>`;
         }
     }
 
@@ -150,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const videoContainer = document.getElementById('video-container');
             videoContainer.innerHTML = ''; // Clear existing videos
             
-            const response = await fetch('http://localhost:3000/api/videos');
+            const response = await fetch(`${SERVER_URL}/api/videos`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -162,12 +167,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             videos.forEach(video => {
-                const videoElement = createVideoElement(`/assets/videos/${video}`);
+                const videoElement = createVideoElement(video.url);
                 videoContainer.appendChild(videoElement);
             });
         } catch (error) {
             console.error('Error loading videos:', error);
-            videoContainer.innerHTML = '<p>Error loading videos. Please check the console.</p>';
+            videoContainer.innerHTML = `<p>Error loading videos: ${error.message}</p>`;
         }
     }
 
