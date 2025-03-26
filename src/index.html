@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Photos</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="nav-container">
+            <h1>Gallery</h1>
+            <div class="nav-links">
+                <a href="/" class="active">Home</a>
+                <a href="/profile.html" id="profileLink">Profile</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search images..." id="search-input">
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="photo-gallery">
+            <h2>Featured Photos</h2>
+            <div class="gallery-grid" id="gallery-container">
+                <!-- Photos will be dynamically loaded here -->
+            </div>
+        </section>
+        <section id="video-gallery">
+            <h2>Featured Videos</h2>
+            <div class="video-grid" id="video-container">
+                <!-- Videos will be dynamically loaded here -->
+            </div>
+        </section>
+        <section id="subscription">
+            <div class="subscription-container">
+                <h2>Subscribe for More Photos</h2>
+                <p>Get access to our exclusive photo collection!</p>
+                <a href="https://wa.me/YOUR_PHONE_NUMBER" class="whatsapp-button" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    Subscribe via WhatsApp
+                </a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Cool Photos</p>
+    </footer>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
+src/
+  ├── assets/           # Put your images here
+  ├── styles/
+  ├── scripts/
+  ├── index.html
+  └── server.js

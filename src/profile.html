@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Cool Photos</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="nav-container">
+            <h1>Gallery</h1>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/profile.html" class="active">Profile</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="auth-section">
+            <div class="login-container">
+                <div class="login-box">
+                    <h2>Sign in</h2>
+                    <form class="login-form" id="loginForm">
+                        <input type="email" placeholder="Email" required>
+                        <input type="password" placeholder="Password" required>
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <section id="profile-section" style="display: none;">
+            <div class="profile-info">
+                <h2>Profile</h2>
+                <div id="user-info"></div>
+            </div>
+            <div class="all-photos">
+                <h3>All Photos</h3>
+                <div class="gallery-grid" id="gallery-container"></div>
+            </div>
+            <div class="all-videos">
+                <h3>All Videos</h3>
+                <div class="video-grid" id="video-container"></div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Cool Photos</p>
+    </footer>
+    <script src="scripts/profile.js"></script>
+</body>
+</html>
